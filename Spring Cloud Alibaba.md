@@ -357,17 +357,17 @@ public class RequestOriginParserDefinition implements RequestOriginParser{
  //异常处理页面
 @Component
 public class ExceptionHandlerPage implements UrlBlockHandler {
-    //BlockException 异常接口,包含Sentinel的五个异常
-    // FlowException 限流异常
-    // DegradeException 降级异常
-    // ParamFlowException 参数限流异常
-    // AuthorityException 授权异常
-    // SystemBlockException 系统负载异常
+    
     @Override
     public void blocked(HttpServletRequest request, HttpServletResponse response, BlockException e) throws IOException {
         response.setContentType("application/json;charset=utf-8");
         ResponseData data = null;
-        
+        //BlockException 异常接口,包含Sentinel的五个异常
+        // FlowException 限流异常
+        // DegradeException 降级异常
+        // ParamFlowException 参数限流异常
+        // AuthorityException 授权异常
+        // SystemBlockException 系统负载异常
         if (e instanceof FlowException) {
         	data = new ResponseData(-1, "接口被限流了...");
         } else if (e instanceof DegradeException) {
@@ -384,6 +384,60 @@ class ResponseData {
     private String message;
 }
 ```
+
+###  @SentinelResource的使用
+
+@SentinelResource 用于定义资源，并提供可选的异常处理和 fallback 配置项。其主要参数如下:
+
+| 属性               | 作用                                                         |
+| ------------------ | :----------------------------------------------------------- |
+| value              | 资源名称                                                     |
+| entryType          | entry类型，标记流量的方向，取值IN/OUT，默认是OUT             |
+| blockHandler       | 处理BlockException的函数名称,函数要求：1.  必须是 public 2.返回类型 参数与原方法一致 3. 默认需和原方法在同一个类中。若希望使用其他类的函数，可配置 blockHandlerClass ，并指定blockHandlerClass里面的方法。 |
+| blockHandlerClass  | 存放blockHandler的类,对应的处理函数必须static修饰。          |
+| fallback           | 用于在抛出异常的时候提供fallback处理逻辑。fallback函数可以针对所 有类型的异常（除了 exceptionsToIgnore 里面排除掉的异常类型）进 行处理。函数要求： 1. 返回类型与原方法一致 2. 参数类型需要和原方法相匹配 3. 默认需和原方法在同一个类中。若希望使用其他类的函数，可配置 fallbackClass ，并指定fallbackClass里面的方法。 |
+| fallbackClass      | 存放fallback的类。对应的处理函数必须static修饰。             |
+| defaultFallback    | 用于通用的 fallback 逻辑。默认fallback函数可以针对所有类型的异常进 行处理。若同时配置了 fallback 和 defaultFallback，以fallback为准。函数要求： 1. 返回类型与原方法一致 2. 方法参数列表为空，或者有一个 Throwable 类型的参数。 3. 默认需要和原方法在同一个类中。若希望使用其他类的函数，可配置 fallbackClass ，并指定 fallbackClass 里面的方法。 |
+| exceptionsToIgnore | 指定排除掉哪些异常。排除的异常不会计入异常统计，也不会进入 fallback逻辑，而是原样抛出。 |
+| exceptionsToTrace  | 需要trace的异常                                              |
+
+定义限流和降级后的处理方法
+
+> 方式一：直接将限流和降级方法定义在方法中
+
+```java
+@Service
+@Slf4j
+public class OrderServiceImpl3 {
+    int i = 0;
+    @SentinelResource(
+        value = "message",
+        blockHandler = "blockHandler",// 指定发生BlockException时进入的方法
+        fallback = "fallback"// 指定发生Throwable时进入的方法
+    )
+    public String message() {
+        i++;
+        if (i % 3 == 0) {
+        	throw new RuntimeException();
+    	}
+    	return "message";
+    }
+    // BlockException时进入的方法
+    // 1.当前方法返回值类型和参数必须和原方法一致
+    // 2.但是允许在参数列表的最后加入一个参数BlockException，用来接收原方法中的异常
+    public String blockHandler(BlockException ex) {
+        log.error("{}", ex);
+        return "接口被限流或者降级了...";
+    }
+    //Throwable时进入的方法
+    public String fallback(Throwable throwable) {
+        log.error("{}", throwable);
+        return "接口发生异常了...";
+    }
+}
+```
+
+
 
 
 
