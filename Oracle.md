@@ -49,6 +49,9 @@ create or replace directory dbback as 'E:\OracleDB';
 # 用户一定是需要导出的表空间对应的用户，不是管理员账号
 # query="'where xxx=xxx'" 带条件导出，指定要添加的条件，把表中的数据进行过滤导出
 # CONTENT用于指定要导入/出的内容.默认值为ALL，可不写，当设置CONTENT为ALL时,将导出对象定义及其所有数据，为DATA_ONLY时,只导出对象数据，为METADATA_ONLY时,只导出对象定义
+# 添加tables=test1,test2，可导出指定表
+# 如果使用管理员用户，添加 schemas=test1,test2 可以导出指定用户关联的数据
+# 添加 tablespaces=test,test 可以导出指定表空间
 expdp bbb/xxx@xxx.xxx.xxx.xxx/ORCL directory=dbback dumpfile=BBB_20210823.dmp logfile=BBB_20210823.log CONTENT={ALL | DATA_ONLY | METADATA_ONLY}
 ```
 
