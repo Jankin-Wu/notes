@@ -32,8 +32,11 @@ grant resource to aaa;
 
 -- 授权用户创建视图权限
 GRANT create view to aaa;
+```
 
--- 创建目录，已经创建过可以不用创建
+4. 创建目录，已经创建过可以不用创建
+
+```sql
 create or replace directory dbback as 'E:\OracleDB';
 ```
 
@@ -62,10 +65,11 @@ expdp bbb/xxx@xxx.xxx.xxx.xxx/ORCL directory=dbback dumpfile=BBB_20210823.dmp lo
 3. 导入备份文件
 
 ```shell
-# impdp 用户名/密码@ip/ORCL dumpfile=表空间名称_日期.dmp directory=目录名称 remap_schema=导出表空间名称:导入表空间名称 logfile=表空间名称_日期.log 
+# impdp 用户名/密码@ip/ORCL dumpfile=表空间名称_日期.dmp directory=目录名称 remap_schema=旧导出库用户名:新导入库用户名 remap_tablespace=旧导出库表空间:新导入库表空间 logfile=表空间名称_日期.log 
 # table_exists_action= （skip 是如果已存在表，则跳过并处理下一个对象；append 是为表增加数据；truncate 是截断表，然后为其增加新数据；replace 是删除已存在表，重新建表并追加数据）
 # CONTENT用于指定要导入/出的内容.默认值为ALL，可不写，当设置CONTENT为ALL 时,将导入/出对象定义及其所有数据，为DATA_ONLY时,只导入/出对象数据，为METADATA_ONLY时,只导入/出对象定义
-impdp aaa/xxx@xxx.xxx.xxx.xxx/ORCL dumpfile=AAA_20210823.dmp directory=dbback remap_schema=BBB:AAA logfile=AAA_20210823.log table_exists_action=replace CONTENT={ALL | DATA_ONLY | METADATA_ONLY}
+# 如果需要导入数据的用户具有DBA权限，那么导入时会按照原来的位置导入数据，即导入到原表空间，所以要设置remap_tablespace
+impdp aaa/xxx@xxx.xxx.xxx.xxx/ORCL dumpfile=AAA_20210823.dmp directory=dbback remap_schema=bbb:aaa remap_tablespace=BBB:AAA logfile=AAA_20210823.log table_exists_action=replace CONTENT={ALL | DATA_ONLY | METADATA_ONLY}
 ```
 
 ## 相同用户间的数据导入导出
