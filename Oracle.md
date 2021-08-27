@@ -115,7 +115,22 @@ select *　from dba_users;
 select * from dba_data_files;
 # 查询目录
 SELECT * FROM dba_directories;
+# 查询出指定表空间下的表
+select TABLE_NAME,TABLESPACE_NAME from dba_tables where TABLESPACE_NAME='表空间名称';
+# 查询指定用户的默认表空间
+select default_tablespace from dba_users where username='用户名称';
+# 查询出单一表对应的表空间
+select tablespace_name,table_name from user_tables where table_name='表名';
 ```
+
+### 新增
+
+```sql
+# 赋予用户无限表空间
+grant unlimited tablespace to 用户名
+```
+
+
 
 ### 删除
 
@@ -124,5 +139,7 @@ SELECT * FROM dba_directories;
 drop user xxx cascade;
 # 删除表空间
 DROP TABLESPACE xxx INCLUDING CONTENTS AND DATAFILES;
+# 回收用户对表空间无限制的权限
+revoke unlimited tablespace from 用户名;
 ```
 
