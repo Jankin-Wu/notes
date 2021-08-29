@@ -685,21 +685,127 @@ public interface ProductService {
 }
 ```
 
+## Spring Cloud Gateway
 
+### 基础使用
 
+> 第一步：创建一个 api-gateway 的模块,导入相关依赖
 
+```xml
+<!--gateway网关-->
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-gateway</artifactId>
+</dependency>
+```
 
+> 第二步：创建主类
 
+```java
+@SpringBootApplication
+public class GatewayApplication {
+    public static void main(String[] args) {
+    	SpringApplication.run(GatewayApplication.class, args);
+    }
+}
+```
 
+> 第三步：添加配置文件
 
+```yaml
+server:
+	port: 7000
+spring:
+	application:
+		name: api-gateway
+	cloud:
+		gateway:
+			routes: # 路由数组[路由 就是指定当请求满足什么条件的时候转到哪个微服务]
+                - id: product_route # 当前路由的标识, 要求唯一
+                    uri: http://localhost:8081 # 请求要转发到的地址
+                    order: 1 # 路由的优先级,数字越小级别越高
+                    predicates: # 断言(就是路由转发要满足的条件)
+                        - Path=/product-serv/** # 当请求路径满足Path指定的规则时,才进行路由转发
+                    filters: # 过滤器,请求在传递过程中可以通过过滤器对其进行一定的修改
+                        - StripPrefix=1 # 转发之前去掉1层路径
+```
 
+### 增强版
 
+> 第一步：加入nacos依赖  
 
+```xml
+<!--nacos客户端-->
+<dependency>
+    <groupId>com.alibaba.cloud</groupId>
+    <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+</dependency>
+```
 
+> 第二步：在主类上添加注解  
 
+```java
+@SpringBootApplication
+@EnableDiscoveryClient
+public class ApiGatewayApplication {
+    public static void main(String[] args) {
+    	SpringApplication.run(ApiGatewayApplication.class, args);
+    }
+}
+```
 
+> 第三步：修改配置文件
 
+```yaml
+server:
+	port: 7000
+spring:
+    application:
+    	name: api-gateway
+    cloud:
+        nacos:
+            discovery:
+            	server-addr: 127.0.0.1:8848
+        gateway:
+            discovery:
+                locator:
+                	enabled: true # 让gateway可以发现nacos中的微服务
+            routes:
+                - id: product_route
+                    uri: lb://service-product # lb指的是从nacos中按照名称获取微服务,并遵循负载均衡策略
+                    predicates:
+                    	- Path=/product-serv/**
+                    filters:
+                    	- StripPrefix=1
+```
 
+### 简写版  
+
+> 第一步: 去掉关于路由的配置  
+
+```yaml
+# uri 默认为“网关服务地址/微服务名称/接口地址”，按照这个格式访问，就可以成功响应
+server:
+	port: 7000
+spring:
+    application:
+    	name: gateway
+    cloud:
+        nacos:
+            discovery:
+            	server-addr: 127.0.0.1:8848
+        gateway:
+        	discovery:
+        		locator:
+        			enabled: true `
+```
+
+### 断言  
+
+Predicate(断言, 谓词) 用于进行条件判断，只有断言都返回真，才会真正的执行路由。
+断言就是说: 在什么条件下才能进行路由转发  
+
+#### 内置路由断言工厂  
 
 
 
