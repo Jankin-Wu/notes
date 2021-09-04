@@ -170,6 +170,31 @@ docker run -d -P --name nginx -v juming-nginx:/etc/nginx nginx
 # -v /宿主内路径：容器内路径   #指定路径挂载
 ```
 
+## 容器数据卷
+
+```shell
+# 启动一个父容器
+docker run -it --name dc01 zzyy/centos
+# dc02、dc03继承自dc01
+# 容器之间配置信息的传递，数据卷的生命周期一直持续到没有容器使用它为止
+docker run -it --name dc02 --volumes-from dc01 zzyy/centos
+docker run -it --name dc03 --volumes-from dc01 zzyy/centos
+```
+
+## DockerFile
+
+```shell
+FROM # 基础镜像，一切从这里构建
+MAINTAINER # 镜像是谁写的，姓名+邮箱
+RUN # 镜像构建的时候需要运行命令
+ADD # 添加内容
+WORKDIR # 镜像的工作目录
+VOLUME # 挂载的目录
+EXPOSE # 为Docker容器设置对外的端口号
+```
+
+
+
 ## 容器安装
 
 ### nginx
