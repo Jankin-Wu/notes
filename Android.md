@@ -79,3 +79,50 @@ PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 mBuilder.setContentIntent(pendingIntent)  
 ```
 
+### AlertDialog
+
+1. **基本使用流程**
+
+- **Step 1**：创建**AlertDialog.Builder**对象；
+- **Step 2**：调用**setIcon()**设置图标，**setTitle()**或**setCustomTitle()**设置标题；
+- **Step 3**：设置对话框的内容：**setMessage()**还有其他方法来指定显示的内容；
+- **Step 4**：调用**setPositive/Negative/NeutralButton()**设置：确定，取消，中立按钮；
+- **Step 5**：调用**create()**方法创建这个对象，再调用**show()**方法将对话框显示出来；
+
+示例：
+
+```java
+public void dialogClick(View view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setIcon(R.mipmap.ic_launcher)
+                .setTitle("我是对话框")
+                .setMessage("今天天气怎么样")
+                .create()
+                .show();
+
+    }
+```
+
+2. **常用方法**（官方API文档：[AlertDialog官方文档](https://developer.android.google.cn/reference/androidx/appcompat/app/AlertDialog)）
+- [setButton](https://developer.android.google.cn/reference/androidx/appcompat/app/AlertDialog#setButton(int, java.lang.CharSequence, android.os.Message))(int whichButton, CharSequence text, [Message](https://developer.android.google.cn/reference/android/os/Message.html) msg)：设置按下按钮时要发送的消息
+
+- [setButton](https://developer.android.google.cn/reference/androidx/appcompat/app/AlertDialog#setButton(int, java.lang.CharSequence, android.graphics.drawable.Drawable, android.content.DialogInterface.OnClickListener))(int whichButton, CharSequence text, [Drawable](https://developer.android.google.cn/reference/android/graphics/drawable/Drawable.html) icon, [DialogInterface.OnClickListener](https://developer.android.google.cn/reference/android/content/DialogInterface.OnClickListener.html) listener)：设置要与按钮文本一起显示的图标以及在按下对话框的确定按钮时要调用的监听器。
+
+- [setIcon](https://developer.android.google.cn/reference/androidx/appcompat/app/AlertDialog#setIcon(android.graphics.drawable.Drawable))([Drawable](https://developer.android.google.cn/reference/android/graphics/drawable/Drawable.html) icon)：设置要在标题中使用的图标。
+
+- [setIconAttribute](https://developer.android.google.cn/reference/androidx/appcompat/app/AlertDialog#setIconAttribute(int))(int attrId)：设置图标属性。
+
+- [setMessage](https://developer.android.google.cn/reference/androidx/appcompat/app/AlertDialog#setMessage(java.lang.CharSequence))(CharSequence message)：设置对话框提示信息。
+
+- [setTitle](https://developer.android.google.cn/reference/androidx/appcompat/app/AlertDialog#setTitle(java.lang.CharSequence))(CharSequence title)：设置标题。
+
+- [setView](https://developer.android.google.cn/reference/androidx/appcompat/app/AlertDialog#setView(android.view.View, int, int, int, int))([View](https://developer.android.google.cn/reference/android/view/View.html) view, int viewSpacingLeft, int viewSpacingTop, int viewSpacingRight, int viewSpacingBottom)：设置要在对话框中显示的视图，指定在该视图周围显示的间距。
+
+- [setView](https://developer.android.google.cn/reference/androidx/appcompat/app/AlertDialog#setView(android.view.View))([View](https://developer.android.google.cn/reference/android/view/View.html) view)：设置自定义布局。
+
+- setPositiveButton(CharSequence text, final OnClickListener listener)：设置确定按钮，参数依次为：按钮显示文字，监听事件。
+
+- setNegativeButton(CharSequence text, final OnClickListener listener)：设置取消按钮，参数依次为：按钮显示文字，监听事件。
+
+- setNeutralButton(CharSequence text, final OnClickListener listener)：设置中间按钮，参数依次为：按钮显示文字，监听事件。
+
