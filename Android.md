@@ -135,7 +135,6 @@ public void dialogClick(View view) {
    - public PopupWindow(View contentView, int width, int height, boolean focusable)
 
 2. **常用的一些方法**
-
     - **setContentView**(View contentView)：设置PopupWindow显示的View
     - **getContentView**()：获得PopupWindow显示的View
     - **showAsDropDown(View anchor)**：相对某个控件的位置（正左下方），无偏移
@@ -146,3 +145,16 @@ public void dialogClick(View view) {
     - **setAnimationStyle(int)：**设置动画效果
     - **[dismiss](https://developer.android.google.cn/reference/kotlin/android/widget/PopupWindow#dismiss())()：**关闭弹窗
 
+## 布局
+
+### LinearLayout
+
+1. **XML attributes**
+   - **gravity：**控制组件所包含的子元素的对齐方式，可多个组合
+   - **layout_gravity：**控制该组件在父容器里的对齐方式
+   - **background：**为该组件设置一个背景图片，或者是直接用颜色覆盖
+   - **divider：**分割线
+   - **showDividers：**设置分割线所在的位置，none（无），beginning（开始），end（结束），middle（每两个组件间）
+   - **dividerPadding：**设置分割线的padding
+   - **layout_weight（权重）：**该属性是用来等比例的划分区域
+2. 
