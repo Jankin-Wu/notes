@@ -83,11 +83,11 @@ mBuilder.setContentIntent(pendingIntent)
 
 1. **基本使用流程**
 
-- **Step 1**：创建**AlertDialog.Builder**对象；
-- **Step 2**：调用**setIcon()**设置图标，**setTitle()**或**setCustomTitle()**设置标题；
-- **Step 3**：设置对话框的内容：**setMessage()**还有其他方法来指定显示的内容；
-- **Step 4**：调用**setPositive/Negative/NeutralButton()**设置：确定，取消，中立按钮；
-- **Step 5**：调用**create()**方法创建这个对象，再调用**show()**方法将对话框显示出来；
+    - **Step 1**：创建**AlertDialog.Builder**对象；
+    - **Step 2**：调用**setIcon()**设置图标，**setTitle()**或**setCustomTitle()**设置标题；
+    - **Step 3**：设置对话框的内容：**setMessage()**还有其他方法来指定显示的内容；
+    - **Step 4**：调用**setPositive/Negative/NeutralButton()**设置：确定，取消，中立按钮；
+    - **Step 5**：调用**create()**方法创建这个对象，再调用**show()**方法将对话框显示出来；
 
 示例：
 
@@ -104,25 +104,45 @@ public void dialogClick(View view) {
 ```
 
 2. **常用方法**（官方API文档：[AlertDialog官方文档](https://developer.android.google.cn/reference/androidx/appcompat/app/AlertDialog)）
-- [setButton](https://developer.android.google.cn/reference/androidx/appcompat/app/AlertDialog#setButton(int, java.lang.CharSequence, android.os.Message))(int whichButton, CharSequence text, [Message](https://developer.android.google.cn/reference/android/os/Message.html) msg)：设置按下按钮时要发送的消息
+    - [setButton](https://developer.android.google.cn/reference/androidx/appcompat/app/AlertDialog#setButton(int, java.lang.CharSequence, android.os.Message))(int whichButton, CharSequence text, [Message](https://developer.android.google.cn/reference/android/os/Message.html) msg)：设置按下按钮时要发送的消息
 
-- [setButton](https://developer.android.google.cn/reference/androidx/appcompat/app/AlertDialog#setButton(int, java.lang.CharSequence, android.graphics.drawable.Drawable, android.content.DialogInterface.OnClickListener))(int whichButton, CharSequence text, [Drawable](https://developer.android.google.cn/reference/android/graphics/drawable/Drawable.html) icon, [DialogInterface.OnClickListener](https://developer.android.google.cn/reference/android/content/DialogInterface.OnClickListener.html) listener)：设置要与按钮文本一起显示的图标以及在按下对话框的确定按钮时要调用的监听器。
+    - [setButton](https://developer.android.google.cn/reference/androidx/appcompat/app/AlertDialog#setButton(int, java.lang.CharSequence, android.graphics.drawable.Drawable, android.content.DialogInterface.OnClickListener))(int whichButton, CharSequence text, [Drawable](https://developer.android.google.cn/reference/android/graphics/drawable/Drawable.html) icon, [DialogInterface.OnClickListener](https://developer.android.google.cn/reference/android/content/DialogInterface.OnClickListener.html) listener)：设置要与按钮文本一起显示的图标以及在按下对话框的确定按钮时要调用的监听器。
 
-- [setIcon](https://developer.android.google.cn/reference/androidx/appcompat/app/AlertDialog#setIcon(android.graphics.drawable.Drawable))([Drawable](https://developer.android.google.cn/reference/android/graphics/drawable/Drawable.html) icon)：设置要在标题中使用的图标。
+    - [setIcon](https://developer.android.google.cn/reference/androidx/appcompat/app/AlertDialog#setIcon(android.graphics.drawable.Drawable))([Drawable](https://developer.android.google.cn/reference/android/graphics/drawable/Drawable.html) icon)：设置要在标题中使用的图标。
 
-- [setIconAttribute](https://developer.android.google.cn/reference/androidx/appcompat/app/AlertDialog#setIconAttribute(int))(int attrId)：设置图标属性。
+    - [setIconAttribute](https://developer.android.google.cn/reference/androidx/appcompat/app/AlertDialog#setIconAttribute(int))(int attrId)：设置图标属性。
 
-- [setMessage](https://developer.android.google.cn/reference/androidx/appcompat/app/AlertDialog#setMessage(java.lang.CharSequence))(CharSequence message)：设置对话框提示信息。
+    - [setMessage](https://developer.android.google.cn/reference/androidx/appcompat/app/AlertDialog#setMessage(java.lang.CharSequence))(CharSequence message)：设置对话框提示信息。
 
-- [setTitle](https://developer.android.google.cn/reference/androidx/appcompat/app/AlertDialog#setTitle(java.lang.CharSequence))(CharSequence title)：设置标题。
+    - [setTitle](https://developer.android.google.cn/reference/androidx/appcompat/app/AlertDialog#setTitle(java.lang.CharSequence))(CharSequence title)：设置标题。
 
-- [setView](https://developer.android.google.cn/reference/androidx/appcompat/app/AlertDialog#setView(android.view.View, int, int, int, int))([View](https://developer.android.google.cn/reference/android/view/View.html) view, int viewSpacingLeft, int viewSpacingTop, int viewSpacingRight, int viewSpacingBottom)：设置要在对话框中显示的视图，指定在该视图周围显示的间距。
+    - [setView](https://developer.android.google.cn/reference/androidx/appcompat/app/AlertDialog#setView(android.view.View, int, int, int, int))([View](https://developer.android.google.cn/reference/android/view/View.html) view, int viewSpacingLeft, int viewSpacingTop, int viewSpacingRight, int viewSpacingBottom)：设置要在对话框中显示的视图，指定在该视图周围显示的间距。
 
-- [setView](https://developer.android.google.cn/reference/androidx/appcompat/app/AlertDialog#setView(android.view.View))([View](https://developer.android.google.cn/reference/android/view/View.html) view)：设置自定义布局。
+    - [setView](https://developer.android.google.cn/reference/androidx/appcompat/app/AlertDialog#setView(android.view.View))([View](https://developer.android.google.cn/reference/android/view/View.html) view)：设置自定义布局。
 
-- setPositiveButton(CharSequence text, final OnClickListener listener)：设置确定按钮，参数依次为：按钮显示文字，监听事件。
+    - setPositiveButton(CharSequence text, final OnClickListener listener)：设置确定按钮，参数依次为：按钮显示文字，监听事件。
 
-- setNegativeButton(CharSequence text, final OnClickListener listener)：设置取消按钮，参数依次为：按钮显示文字，监听事件。
+    - setNegativeButton(CharSequence text, final OnClickListener listener)：设置取消按钮，参数依次为：按钮显示文字，监听事件。
 
-- setNeutralButton(CharSequence text, final OnClickListener listener)：设置中间按钮，参数依次为：按钮显示文字，监听事件。
+    - setNeutralButton(CharSequence text, final OnClickListener listener)：设置中间按钮，参数依次为：按钮显示文字，监听事件。
+
+### PopupWindow
+
+1. **几个常用的构造方法**
+   - public PopupWindow (Context context)
+   - public PopupWindow(View contentView, int width, int height)
+   - public PopupWindow(View contentView)
+   - public PopupWindow(View contentView, int width, int height, boolean focusable)
+
+2. **常用的一些方法**
+
+    - **setContentView**(View contentView)：设置PopupWindow显示的View
+    - **getContentView**()：获得PopupWindow显示的View
+    - **showAsDropDown(View anchor)**：相对某个控件的位置（正左下方），无偏移
+    - **showAsDropDown(View anchor, int xoff, int yoff)**：相对某个控件的位置，有偏移
+    - **showAtLocation(View parent, int gravity, int x, int y)**： 相对于父控件的位置（例如正中央Gravity.CENTER，下方Gravity.BOTTOM等），可以设置偏移或无偏移 PS:parent这个参数只要是activity中的view就可以了！
+    - **setWidth/setHeight**：设置宽高，也可以在构造方法那里指定好宽高， 除了可以写具体的值，还可以用WRAP_CONTENT或MATCH_PARENT， popupWindow的width和height属性直接和第一层View相对应。
+    - **setFocusable(true)**：设置焦点，PopupWindow弹出后，所有的触屏和物理按键都由PopupWindows 处理。其他任何事件的响应都必须发生在PopupWindow消失之后，（home 等系统层面的事件除外）。 比如这样一个PopupWindow出现的时候，按back键首先是让PopupWindow消失，第二次按才是退出 activity，准确的说是想退出activity你得首先让PopupWindow消失，因为不并是任何情况下按back PopupWindow都会消失，必须在PopupWindow设置了背景的情况下 。
+    - **setAnimationStyle(int)：**设置动画效果
+    - **[dismiss](https://developer.android.google.cn/reference/kotlin/android/widget/PopupWindow#dismiss())()：**关闭弹窗
 
