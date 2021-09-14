@@ -157,4 +157,28 @@ public void dialogClick(View view) {
    - **showDividers：**设置分割线所在的位置，none（无），beginning（开始），end（结束），middle（每两个组件间）
    - **dividerPadding：**设置分割线的padding
    - **layout_weight（权重）：**该属性是用来等比例的划分区域
-2. 
+
+### RelativeLayout
+
+![RelativeLayout 属性](https://note.youdao.com/yws/api/personal/file/WEB73eac672be8bf8d40bd107f02b0d5795?method=download&shareKey=e6a1acca8290a539c0d8ad6789a9f589)
+
+### FrameLayout
+
+1. **XML atrribute**
+   - **android:foreground: **设置改帧布局容器的前景图像
+   - **android:foregroundGravity: **设置前景图像显示的位置
+
+### TableLayout
+
+1. **XML atrribute**
+   - **android:collapseColumns: **设置需要被隐藏的列的序号
+   - **android:shrinkColumns: **设置允许被收缩的列的列序号
+   - **android:stretchColumns: **设置运行被拉伸的列的列序号
+
+> 以上这三个属性的列号都是从0开始算的,比如shrinkColunmns = "2",对应的是第三列！
+> 可以设置多个,用逗号隔开比如"0,2",如果是所有列都生效,则用"\*"号即可
+
+2. 子控件属性
+
+    - **android:layout_column**：从第几列开始显示
+    - **android:layout_span**：表示合并n个单元格,也就说这个组件占n个单元格
