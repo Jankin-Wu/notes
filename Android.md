@@ -182,3 +182,8 @@ public void dialogClick(View view) {
 
     - **android:layout_column**：从第几列开始显示
     - **android:layout_span**：表示合并n个单元格,也就说这个组件占n个单元格
+
+### GridLayout
+
+![GridLayout](https://note.youdao.com/yws/api/personal/file/WEB68e088ad5f3e46a2d7c86106e7dab103?method=download&shareKey=568d3758dd3957713058aa295074aff9)
+
