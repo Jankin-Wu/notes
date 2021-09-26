@@ -213,9 +213,30 @@ public void dialogClick(View view) {
     android:duration="2000"/>
 ```
 
-> 属性解释：
+> 属性解释
 
 **fromAlpha** :起始透明度
 **toAlpha**:结束透明度
 透明度的范围为：0-1，完全透明-完全不透明
 
++ **ScaleAnimation(缩放渐变)**
+
+> anim_scale.xml
+
+```xml
+<scale xmlns:android="http://schemas.android.com/apk/res/android"  
+    android:interpolator="@android:anim/accelerate_interpolator"  
+    android:fromXScale="0.2"  
+    android:toXScale="1.5"  
+    android:fromYScale="0.2"  
+    android:toYScale="1.5"  
+    android:pivotX="50%"  
+    android:pivotY="50%"  
+    android:duration="2000"/>
+```
+
+>  属性解释：
+
+**fromXScale**/**fromYScale**：沿着X轴/Y轴缩放的起始比例
+**toXScale**/**toYScale**：沿着X轴/Y轴缩放的结束比例
+**pivotX**/**pivotY**：缩放的中轴点X/Y坐标，即距离自身左边缘的位置，比如50%就是以图像的 中心为中轴点
