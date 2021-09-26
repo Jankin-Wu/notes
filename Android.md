@@ -240,3 +240,23 @@ public void dialogClick(View view) {
 **fromXScale**/**fromYScale**：沿着X轴/Y轴缩放的起始比例
 **toXScale**/**toYScale**：沿着X轴/Y轴缩放的结束比例
 **pivotX**/**pivotY**：缩放的中轴点X/Y坐标，即距离自身左边缘的位置，比如50%就是以图像的 中心为中轴点
+
+- **TranslateAnimation(位移渐变)**
+
+> anim_translate.xml
+
+```xml
+<translate xmlns:android="http://schemas.android.com/apk/res/android"  
+    android:interpolator="@android:anim/accelerate_decelerate_interpolator"  
+    android:fromXDelta="0"  
+    android:toXDelta="320"  
+    android:fromYDelta="0"  
+    android:toYDelta="0"  
+    android:duration="2000"/>
+```
+
+> 属性解释
+
+- **fromXDelta**/**fromYDelta**：动画起始位置的X/Y坐标
+- **toXDelta**/**toYDelta**：动画结束位置的X/Y坐标
+
