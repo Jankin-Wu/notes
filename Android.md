@@ -187,3 +187,35 @@ public void dialogClick(View view) {
 
 ![GridLayout](https://note.youdao.com/yws/api/personal/file/WEB68e088ad5f3e46a2d7c86106e7dab103?method=download&shareKey=568d3758dd3957713058aa295074aff9)
 
+## 动画
+
+### 补间动画
+
+**1. 补间动画的分类和Interpolator**
+
+- **AlphaAnimation：**透明度渐变效果，创建时许指定开始以及结束透明度，还有动画的持续 时间，透明度的变化范围(0,1)，0是完全透明，1是完全不透明；对应<**alpha**/>标签！
+- **ScaleAnimation**：缩放渐变效果，创建时需指定开始以及结束的缩放比，以及缩放参考点， 还有动画的持续时间；对应<**scale**/>标签！
+- **TranslateAnimation**：位移渐变效果，创建时指定起始以及结束位置，并指定动画的持续 时间即可；对应<**translate**/>标签！
+- **RotateAnimation**：旋转渐变效果，创建时指定动画起始以及结束的旋转角度，以及动画 持续时间和旋转的轴心；对应<**rotate**/>标签
+- **AnimationSet**：组合渐变，就是前面多种渐变的组合，对应<**set**/>标签
+
+**2. 各种动画的详细讲解**
+
++ **AlphaAnimation(透明度渐变)**
+
+> anim_alpha.xml
+
+```xml
+<alpha xmlns:android="http://schemas.android.com/apk/res/android"  
+    android:interpolator="@android:anim/accelerate_decelerate_interpolator"  
+    android:fromAlpha="1.0"  
+    android:toAlpha="0.1"  
+    android:duration="2000"/>
+```
+
+> 属性解释：
+
+**fromAlpha** :起始透明度
+**toAlpha**:结束透明度
+透明度的范围为：0-1，完全透明-完全不透明
+
