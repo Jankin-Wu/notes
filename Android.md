@@ -260,3 +260,37 @@ public void dialogClick(View view) {
 - **fromXDelta**/**fromYDelta**：动画起始位置的X/Y坐标
 - **toXDelta**/**toYDelta**：动画结束位置的X/Y坐标
 
+## Activity
+
+### Fragment
+
+> 动态添加 Fragment
+
+1. 创建一个待处理的 Fragment
+
+2. 获取 FragmentManager，一般是通过 getSupportFragmentManager()
+
+   ```java
+   FragmentManager fragmentManager = this.getSupportFragmentManager();
+   ```
+
+3. 开启一个事务 transaction，一般调用 FragmentManager 的 beginTransaction()
+
+   ```java
+   FragmentTransaction transaction = fragmentManager.beginTransaction();
+   ```
+
+4. 使用 transaction 进行 fragment 的替换
+
+   ```java
+   transaction.replace(R.id.frameLayout, fragment);
+   ```
+
+5. 提交事务
+
+   ```java
+   transaction.commit();
+   ```
+
+   
+
