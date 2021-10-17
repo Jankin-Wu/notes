@@ -310,3 +310,8 @@ public void dialogClick(View view) {
 + **onDestroy**：当这个fragment不再使用时调用。需要注意的是，它即使经过了onDestroy()阶段，但仍然能从Activity中找到，因为它还没有Detach。
 + **onDetach**：Fragment生命周期中最后一个回调是onDetach()。调用它以后，Fragment就不再与Activity相绑定，它也不再拥有视图层次结构，它的所有资源都将被释放。
 
+## Retrofit
+
+### 注解
+
+![/picture/admin/2021/10/17/P001.png](http://tbed.jankinwu.cn/picture/admin/2021/10/17/P001.png)
