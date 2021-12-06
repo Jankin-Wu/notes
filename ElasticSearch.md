@@ -94,6 +94,8 @@ Get _analyze
 
 ### 使用kibana的Dev Tools 操作ES
 
+> 简单的CRUD
+
 ```shell
 # 创建索引规则
 PUT /test2
@@ -125,9 +127,59 @@ PUT /test3/_doc/1
 }
 
 # 查看ES状态
-GET _cat/indices?vs
+GET _cat/indices?v
+
+# 根据字段查询 GET /test3/_doc/_search?q=k:v
+GET /test3/_doc/_search?q=name:张
 
 # 删除索引
-DELETE test2
+DELETE test2/_doc/1
+
+# 修改数据
+POST /test3/_doc/1/_update
+{
+	"name": "李四"
+}
+
+# 注：使用PUT /test3/_doc/1 也可以修改数据，但如果请求体没有包含全部字段，省略的字段则会把已有的对应记录修改为空
+```
+
+> 复杂查询
+
+```sh
+GET /test3/_doc/_search
+{
+  "query": {
+    "match": {
+      "name": "张三"
+    }
+  }
+}
+
+# 指定查询出来的字段，对搜索结果过滤
+GET /test3/_doc/_search
+{
+  "query": {
+    "match": {
+      "name": "张三"
+    }
+  },
+  "_source": ["name", "age"]
+}
+
+# 对查询结果进行排序
+GET /test3/_doc/_search
+{
+  "query": {
+    "match": {
+      "name": "张三"
+    }
+  },
+  "sort": {
+    "age": {
+      "order": "desc"
+    }
+  }
+}
 ```
 
