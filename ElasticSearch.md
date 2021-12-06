@@ -125,7 +125,7 @@ PUT /test3/_doc/1
 }
 
 # 查看ES状态
-GET _cat/indices?v
+GET _cat/indices?vs
 
 # 删除索引
 DELETE test2
