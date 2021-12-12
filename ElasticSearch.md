@@ -94,7 +94,7 @@ Get _analyze
 
 ### 使用kibana的Dev Tools 操作ES
 
-> 简单的CRUD
+#### 简单的CRUD
 
 ```shell
 # 创建索引规则
@@ -144,9 +144,10 @@ POST /test3/_doc/1/_update
 # 注：使用PUT /test3/_doc/1 也可以修改数据，但如果请求体没有包含全部字段，省略的字段则会把已有的对应记录修改为空
 ```
 
-> 复杂查询
+#### 复杂查询
 
 ```sh
+# 需要去掉_doc, 自动补全才生效
 GET /test3/_doc/_search
 {
   "query": {
@@ -181,5 +182,86 @@ GET /test3/_doc/_search
     }
   }
 }
+
 ```
+
+> 布尔查询
+
+```shell
+# must：相当于and,所有条件都要匹配
+GET /test2/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "name": "张"
+          }
+        },
+        {
+          "match": {
+            "age": 28
+          }
+        }
+      ]
+    }
+  }
+}
+
+# should：相当于or，满足任意条件即可
+GET /test2/_search
+{
+  "query": {
+    "bool": {
+      "should": [
+        {
+          "match": {
+            "name": "张"
+          }
+        },
+        {
+          "match": {
+            "age": 28
+          }
+        }
+      ]
+    }
+  }
+}
+
+# must_not：相当于not，查询不是xx的数据
+
+# 过滤器
+# gt->大于，lt->小于，gte->大于等于，lte->小于等于
+GET /test2/_search
+{
+  "query": {
+    "bool": {
+        "must": [
+        {
+          "match": {
+            "name": "张"
+          }
+        }
+      ],
+      "filter": [
+        {
+          "range": {
+            "age": {
+              "gt": 27,
+              "lt": 29
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+```
+
+**关于分词**
+
++ term：完全匹配，搜索前不会再对搜索词进行分词，通过倒排索引直接精确查询
++ match：先对搜索词建立索引，然后通过分析的
 
