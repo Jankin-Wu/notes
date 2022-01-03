@@ -190,7 +190,7 @@ dashboard: localhost:8080 # 指定控制台服务的地址
 
 #### 流控规则
 
-![/picture/admin/2021/10/17/P002.jpg](http://tbed.jankinwu.cn/picture/admin/2021/10/17/P002.jpg)
+![/picture/admin/2021/10/17/P002.jpg](http://oss.jankinwu.com/img/P002.jpg)
 
 **资源名**：唯一名称，默认是请求路径，可自定义 
 
@@ -308,7 +308,7 @@ public String message3(String name, Integer age) {
 
 ![/picture/admin/2021/10/17/P003.png](http://tbed.jankinwu.cn/picture/admin/2021/10/17/P003.png)
 
-![/picture/admin/2021/10/17/P004.png](http://tbed.jankinwu.cn/picture/admin/2021/10/17/P004.png)
+![/picture/admin/2021/10/17/P004.png](http://oss.jankinwu.com/img/P004.png)
 
 **参数索引**：方法传入参数从左往右数的位置（从0开始）
 
@@ -318,7 +318,7 @@ public String message3(String name, Integer age) {
 
 #### 授权规则
 
-![/picture/admin/2021/10/17/P006.png](http://tbed.jankinwu.cn/picture/admin/2021/10/17/P006.png)
+![/picture/admin/2021/10/17/P006.png](http://oss.jankinwu.com/img/P006.png)
 
 **流控应用**：要填写的是来源标识，Sentinel提供了 RequestOriginParser 接口来处理来源。 只要Sentinel保护的接口资源被访问，Sentinel就会调用 RequestOriginParser 的实现类去解析访问来源
 
@@ -487,7 +487,7 @@ public class OrderServiceImpl3FallbackClass {
 
 ​		首先 Sentinel 控制台通过 API 将规则推送至客户端并更新到内存中，接着注册的写数据源会将新的 规则保存到本地的文件中。
 
-![Sentinel 推送过程](http://tbed.jankinwu.cn/picture/admin/2021/10/17/P007.jpg)
+![Sentinel 推送过程](http://oss.jankinwu.com/img/P007.jpg)
 
 <center><font size=3>Sentinel 推送过程</font></center>
 

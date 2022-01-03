@@ -18,7 +18,7 @@
 
 ### Mybatis执行概要图
 
-![](https://note.youdao.com/yws/api/personal/file/WEB8ebe2c8d5fce4077c68f5449faa57890?method=download&shareKey=cc742c02d3e1929b160f7acd07d64c0b)
+![](http://oss.jankinwu.com/img/20190612154305870.png)
 
 ### 拦截器注解的规则
 

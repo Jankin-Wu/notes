@@ -160,7 +160,7 @@ public void dialogClick(View view) {
 
 ### RelativeLayout
 
-![RelativeLayout 属性](https://note.youdao.com/yws/api/personal/file/WEB73eac672be8bf8d40bd107f02b0d5795?method=download&shareKey=e6a1acca8290a539c0d8ad6789a9f589)
+![RelativeLayout 属性](http://oss.jankinwu.com/img/797932661-1.png)
 
 ### FrameLayout
 
@@ -185,7 +185,7 @@ public void dialogClick(View view) {
 
 ### GridLayout
 
-![GridLayout](https://note.youdao.com/yws/api/personal/file/WEB68e088ad5f3e46a2d7c86106e7dab103?method=download&shareKey=568d3758dd3957713058aa295074aff9)
+![GridLayout](http://oss.jankinwu.com/img/D07C612B-0DB8-4775-8045-9318F73C0B13.jpeg)
 
 ## 动画
 
@@ -296,7 +296,7 @@ public void dialogClick(View view) {
 
 #### Fragment 生命周期
 
-![/picture/admin/2021/10/10/P003.png](http://tbed.jankinwu.cn/picture/admin/2021/10/10/P003.png)
+![/picture/admin/2021/10/10/P003.png](http://oss.jankinwu.com/img/P003.png)
 
 + **onAttach**：onAttach()在fragment与Activity关联之后调调查用。需要注意的是，初始化fragment参数可以从getArguments()获得，但是，当Fragment附加到Activity之后，就无法再调用setArguments()。所以除了在最开始时，其它时间都无法向初始化参数添加内容。
 + **onCreate**：fragment初次创建时调用。尽管它看起来像是Activity的OnCreate()函数，但这个只是用来创建Fragment的。此时的Activity还没有创建完成，因为我们的Fragment也是Activity创建的一部分。所以如果你想在这里使用Activity中的一些资源，将会获取不到。比如：获取同一个Activity中其它Frament的控件实例。(代码如下：)，如果想要获得Activity相关联的资源，必须在onActivityCreated中获取。
@@ -314,4 +314,4 @@ public void dialogClick(View view) {
 
 ### 注解
 
-![/picture/admin/2021/10/17/P001.png](http://tbed.jankinwu.cn/picture/admin/2021/10/17/P001.png)
+![/picture/admin/2021/10/17/P001.png](http://oss.jankinwu.com/img/P001.png)

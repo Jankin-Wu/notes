@@ -1,5 +1,5 @@
 ## 访问镜像流程
-![访问镜像流程](https://note.youdao.com/yws/api/personal/file/357339005EA847C683ED2DC35DD07961?method=download&shareKey=66e35520cad47985745e43ae28efbf8f)
+![访问镜像流程](http://oss.jankinwu.com/img/Snipaste_2021-06-13_20-31-59.png)
 
 ## 容器命令
 
@@ -144,7 +144,7 @@ docker commit -m="提交的描述信息" -a="作者" 容器id 目标镜像名:[T
 
 > commit 一个tomcat
 
-![commit 一个tomcat](https://note.youdao.com/yws/api/personal/file/165DDF5E7C89419F8DBF9CE1F5D2053A?method=download&shareKey=7b1809dc3eccaf14bb38d478a1128cdb)
+![commit 一个tomcat](http://oss.jankinwu.com/img/Snipaste_2021-06-22_00-27-39.png)
 
 > mysql 安装
 
