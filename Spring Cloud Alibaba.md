@@ -807,4 +807,9 @@ spring:
 Predicate(断言, 谓词) 用于进行条件判断，只有断言都返回真，才会真正的执行路由。
 断言就是说: 在什么条件下才能进行路由转发  
 
-#### 内置路由断言工厂
+## RocketMQ
+
+> 下载RocketMQ
+
+下载地址：[Index of /release_notes (apache.org)](https://rocketmq.apache.org/release_notes/)
+
