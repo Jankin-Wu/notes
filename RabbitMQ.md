@@ -69,5 +69,113 @@
 docker run -dit --name Myrabbitmq -e RABBITMQ_DEFAULT_USER=admin -e RABBITMQ_DEFAULT_PASS=admin -p 15672:15672 -p 5672:5672 rabbitmq:management
 ```
 
+## RabbitMQ 角色分类
 
+**RabbitMQ各类角色描述：**
 
+**1. none**
+
++ 不能访问 management plugin
+
+**2. management**
+
++ 列出自己可以通过AMQP登入的virtual hosts
++ 查看自己的virtual hosts中的queues, exchanges 和 bindings
++ 查看和关闭自己的channels 和 connections
++ 查看有关自己的virtual hosts的“全局”的统计信息，包含其他用户在这些virtual hosts中的活动
+
+**3. policymaker**
+
++ 包含management所有权限
++ 查看、创建和删除自己的virtual hosts所属的policies和parameters
+
+**4. monitoring**
+
++ 包含management所有权限
++ 列出所有virtual hosts，包括他们不能登录的virtual hosts
++ 查看其他用户的connections和channels
++ 查看节点级别的数据如clustering和memory使用情况
++ 查看真正的关于所有virtual hosts的全局的统计信息
+
+**5. administrator**
++ policymaker和monitoring可以做的任何事外加:
++ 创建和删除virtual hosts
++ 查看、创建和删除users
++ 查看创建和删除permissions
++ 关闭其他用户的connections
+
+## RabbitMQ 核心组成
+
+![	](http://oss.jankinwu.com/img/RabbitMQ%E6%A0%B8%E5%BF%83%E7%BB%84%E6%88%90.png)
+
+1. Broker：消息队列服务器实体
+
+2. Virtual Host：虚拟主机,一个broker里可以有多个Virtual Host，用作不同用户的权限分离
+
+3. Exchange：消息交换机，指定消息规则，处理消息和队列之间的关系
+    Exchange Types：direct、topic、fanout、headers
+
+4. Queue：消息的载体,每个消息都会被投到一个或多个队列
+
+5. Message：由Properties和Body组成，Properties是生产者添加的各种属性的集合，包括消息被哪个Message Queue接受，优先级等属性，body是需要传输的数据
+
+6. Binding：绑定，把exchange和queue按照路由规则绑定起来
+
+7. Routing Key：路由关键字,exchange根据这个关键字进行消息投递
+
+8. connection：客户端与RabbitMQ server(broker)之间的TCP连接
+
+9. channel：信道，打开信道才能进行通信，一个channel代码一个会话任务，它是真实 TCP 连接之上的虚拟连接
+
+   
+
+## AMQP
+
+​		AMQP，即 Advanced Message Queuing Protocol（高级消息队列协议），是一个网络协议，是应用层协议的一个开放标准，为面向消息的中间件设计。基于此协议的客户端与消息中间件可传递消息，并不受客户端/中间件不同产品，不同的开发语言等条件的限制。2006年，AMQP 规范发布。
+
+### AMQP 生产者流转过程
+
+![02326f516e8720d9c8f7d628555ccfc8](http://oss.jankinwu.com/img/02326f516e8720d9c8f7d628555ccfc8.png)
+
+### AMQP 消费者流转过程
+
+![AMQP消费者流转过程](http://oss.jankinwu.com/img/AMQP%E6%B6%88%E8%B4%B9%E8%80%85%E6%B5%81%E8%BD%AC%E8%BF%87%E7%A8%8B.png)
+
+## RabbitMQ 模式
+
+### 简单模式 Hello World
+
+![rabbitMQ简单模式](http://oss.jankinwu.com/img/rabbitMQ%E7%AE%80%E5%8D%95%E6%A8%A1%E5%BC%8F.png)
+
+一个生产者P发送消息到队列Q,一个消费者C接收。
+
+### 工作队列模式 Work Queue
+
+![img](http://oss.jankinwu.com/img/20181113170522132.png)
+
+一个生产者，多个消费者，每个消费者获取到的消息唯一，多个消费者只有一个队列。
+
+### 发布/订阅模式 Publish/Subscribe
+
+![img](http://oss.jankinwu.com/img/20181113170540476.png)
+
+一个生产者发送的消息会被多个消费者获取。一个生产者、一个交换机、多个队列、多个消费者。
+
+生产者端发布消息到交换机，使用“fanout”方式发送，即广播消息，不需要使用queue，发送端不需要关心谁接收。
+
+### 路由模式 Routing
+
+![img](http://oss.jankinwu.com/img/20181113170555287.png)
+
+生产者发送消息到交换机并且要指定路由key，消费者将队列绑定到交换机时需要指定路由key。如不指定交换机，则会分配一个默认交换机，默认交换机type为direct。
+
+消费者端和发布订阅模式的区别：
+1、exchange 的 type 为 direct
+2、发送消息的时候加入了 routing key
+
+### 通配符模式 Topics 
+
+![img](http://oss.jankinwu.com/img/20181113170631174.png)
+
+生产者端不只按固定的routing key发送消息，而是按字符串“匹配”发送，消费者端同样如此。
+与之前的路由模式相比，它将信息的传输类型的key更加细化，以“key1.key2.keyN…”的模式来指定信息传输的key的大类型和大类型下面的小类型，让消费者端可以更加精细的确认自己想要获取的信息类型。而在消费者端，不用精确的指定具体到哪一个大类型下的小类型的key，而是可以使用类似正则表达式(但与正则表达式规则完全不同)的通配符在指定一定范围或符合某一个字符串匹配规则的key，来获取想要的信息。“通配符交换机”（Topic Exchange）将路由键和某模式进行匹配。此时队列需要绑定在一个模式上。符号“#”匹配零个或多个词，符号“*”仅匹配一个词。
