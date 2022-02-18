@@ -104,6 +104,15 @@ if !errorlevel! equ 0 (
 pause
 ```
 
+## 端口映射
+
+```SH
+# netsh interface portproxy add v4tov4 listenport=[win10端口] listenaddress=0.0.0.0 connectport=[虚拟机的端口] connectaddress=[虚拟机的ip]
+netsh interface portproxy add v4tov4 listenport=80 listenaddress=0.0.0.0 connectport=80 connectaddress=172.29.41.233
+```
+
+
+
 ## 使用Navicat连接
 
 服务名：XE
