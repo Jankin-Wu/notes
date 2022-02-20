@@ -76,6 +76,7 @@ docker run -d -p 1521:1521 -e ORACLE_ALLOW_REMOTE=true -p 8081:8080 -v /usr/loca
 ## 设置静态IP
 
 ```sh
+# 因为使用wsl，没有办法设置静态ip，所以采用每次开机都设一个固定ip的方法
 # 编写以下脚本，并在组策略添加登录启动脚本
 @echo off
 setlocal enabledelayedexpansion
