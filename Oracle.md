@@ -65,11 +65,11 @@ expdp bbb/xxx@xxx.xxx.xxx.xxx/ORCL directory=dbback dumpfile=BBB_20210823.dmp lo
 3. 导入备份文件
 
 ```shell
-# impdp 用户名/密码@ip/ORCL dumpfile=表空间名称_日期.dmp directory=目录名称 remap_schema=旧导出库用户名:新导入库用户名 remap_tablespace=旧导出库表空间:新导入库表空间 logfile=表空间名称_日期.log 
+# impdp 用户名/密码@ip/ORCL dumpfile=表空间名称_日期.dmp directory=目录名称 remap_schema=旧导出库用户名:新导入库用户名 remap_tablespace=旧导出库表空间:新导入库表空间 logfile=表空间名称_日期.log transform=OID:N
 # table_exists_action= （skip 是如果已存在表，则跳过并处理下一个对象；append 是为表增加数据；truncate 是截断表，然后为其增加新数据；replace 是删除已存在表，重新建表并追加数据）
 # CONTENT用于指定要导入/出的内容.默认值为ALL，可不写，当设置CONTENT为ALL 时,将导入/出对象定义及其所有数据，为DATA_ONLY时,只导入/出对象数据，为METADATA_ONLY时,只导入/出对象定义
 # 如果需要导入数据的用户具有DBA权限，那么导入时会按照原来的位置导入数据，即导入到原表空间，所以要设置remap_tablespace
-impdp aaa/xxx@xxx.xxx.xxx.xxx/ORCL dumpfile=AAA_20210823.dmp directory=dbback remap_schema=bbb:aaa remap_tablespace=BBB:AAA logfile=AAA_20210823.log table_exists_action=replace CONTENT={ALL | DATA_ONLY | METADATA_ONLY}
+impdp aaa/xxx@xxx.xxx.xxx.xxx/ORCL dumpfile=AAA_20210823.dmp directory=dbback remap_schema=bbb:aaa remap_tablespace=BBB:AAA logfile=AAA_20210823.log table_exists_action=replace CONTENT={ALL | DATA_ONLY | METADATA_ONLY} transform=OID:N
 ```
 
 ## 相同用户间的数据导入导出
@@ -115,6 +115,12 @@ select *　from dba_users;
 select * from dba_data_files;
 # 查询目录
 SELECT * FROM dba_directories;
+# 检查dblink是否可以成功连接远程数据库
+select sysdate from dual @dblink_name;
+# 查询所有dblink
+select * from ALL_DB_LINKS;
+# 查询所有profile
+select * from dba_profiles order by PROFILE;
 # 查询出指定表空间下的表
 select TABLE_NAME,TABLESPACE_NAME from dba_tables where TABLESPACE_NAME='表空间名称';
 # 查询指定用户的默认表空间
@@ -129,8 +135,6 @@ select tablespace_name,table_name from user_tables where table_name='表名';
 # 赋予用户无限表空间
 grant unlimited tablespace to 用户名
 ```
-
-
 
 ### 删除
 
