@@ -208,3 +208,17 @@ JNI是Java Native Interface的缩写，通过使用 Java本地接口书写程序
 　　永久代存储类信息、常量、静态变量、即时编译器编译后的代码等数据，对这一区域而言，Java虚拟机规范指出可以不进行垃圾收集，一般而言不会进行垃圾回收。
 
 ​		永久代中出现OOM(OutOfMemory)情况：一个启动类，加载了大量第三方jar包、Tomcat部署了大量应用、大量动态生成的反射类。
+
+```java
+// 返回jvm试图使用的最大内存(单位：字节)
+// JVM最大分配的内存由-Xmx指定，默认是物理内存的1/4
+Runtime.getRuntime().maxMemory();
+// 返回jvm的总内存(单位：字节) 
+// JVM初始分配的内存由-Xms指定，默认是物理内存的1/64
+Runtime.getRuntime().totalMemory();
+// -XX:+PrintGCDetails // 打印垃圾回收详细信息
+// -XX:+HeapDumpOnOutOfMemoryError // 当JVM发生OOM时，自动生成DUMP文件
+```
+
+
+
