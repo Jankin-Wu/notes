@@ -130,7 +130,7 @@ mvn -version
 
 ```sh
 # 最好先去dockerhub上找到最新版本，拉取指定版本号，否则容易出现插件安装失败的问题
-docker run -d -p 8081:8080 -p 50000:50000 --restart=always -v /usr/local/docker/jenkins_home:/var/jenkins_home -v /etc/localtime:/etc/localtime -v /opt/apache-maven-3.8.5:/usr/local/maven --name jenkins jenkins/jenkins:2.341-jdk8
+docker run -d -p 8081:8080 -p 50000:50000 --restart=always -v /usr/local/docker/jenkins_home:/var/jenkins_home -v /etc/localtime:/etc/localtime -v /opt/apache-maven-3.8.5:/usr/local/maven -e PHP_TZ="Asia/Shanghai" --name jenkins jenkins/jenkins:2.341-jdk8
 ```
 
 **3. 打开浏览器访问**
@@ -143,19 +143,19 @@ http://localhost:8081
 vim /usr/local/docker/jenkins_home/secrets/initialAdminPassword
 ```
 
-##### 在Docker容器中更新Jenkins版本
+##### 在 Docker 容器中更新 Jenkins 版本
 
 ```sh
 # 如果jenkins版本太老，可以在不影响jenkins项目的情况下，更新jenkins版本
 # 1.以root用户进入jenkins容器
     docker exec -it -u root jenkins /bin/bash
-# 2.在容器中下载jenkins的最新war包,]，如果嫌下载太慢也可以从官网（https://www.jenkins.io/download/）下载war包然后拷贝到容器中
+# 2.在容器中下载jenkins的最新war包,]，如果嫌下载太慢也可以从官网（https://www.jenkins.io/download/）下载war包然后拷贝到挂载目录中
     wget http://mirrors.jenkins.io/war/latest/jenkins.war
 # 3.查看容器中jenkins war包的位置，并备份原来的war包
     whereis jenkins
     cd /usr/share/jenkins
     cp jenkins.war jenkinsBAK.war
-# 4.将/var/jenkins_home下的包cp到/usr/share/jenkins下覆盖
+# 4.将/var/jenkins_home的包cp到/usr/share/jenkins下覆盖
     cp /var/jenkins_home/jenkins.war /usr/share/jenkins/
 # 5.退出容器并重启
     exit
@@ -193,7 +193,7 @@ vi /etc/sysconfig/jenkins
 # 修改内容如下：
 JENKINS_USER="root"
 JENKINS_PORT="8888"
-# 注：这种方法试了并没有起作用
+# 注：这种方法试了并没有起作用，建议直接用docker run的时候映射端口
 ```
 
 **5. 启动Jenkins**
@@ -204,7 +204,7 @@ systemctl start jenkins
 
 **6. 打开浏览器访问**
 
-http://localhost:8888
+​	http://localhost:8888
 
 **7. 获取并输入admin账户密码**
 
@@ -332,7 +332,7 @@ Jenkins可以和这些第三方的应用进行交互
 
 + Certifificate：通过上传证书文件的方式
 
-### 安装Git插件和Git工具
+### 安装 Git 插件和 Git 工具
 
 为了让Jenkins支持从Gitlab拉取源码，需要安装Git插件以及在jenkins服务器上安装Git工具。
 
@@ -343,7 +343,7 @@ Jenkins可以和这些第三方的应用进行交互
 yum install git -y
 ```
 
-##### 使用git用户密码拉取代码
+#### 使用 Git 用户密码拉取代码
 
 **1.添加凭据**
 
@@ -379,7 +379,7 @@ yum install git -y
 
 ![image-20220403155343422](http://oss.jankinwu.com/img/image-20220403155343422.png)
 
-##### 使用git SSH密钥拉取代码
+#### 使用 Git SSH 密钥拉取代码
 
 **1. 生成SSH密钥**
 
@@ -579,9 +579,155 @@ docker restart tomcat
 
 **2. 添加构建后操作**
 
-  在刚才的maven项目配置中增加构建后操作步骤，构建成功后访问项目地址：格式为http://ip:port/context_path/
+  在刚才的maven项目配置中增加构建后操作步骤，应用并保存，构建成功后访问项目地址：格式为http://ip:port/context_path
 
 ![image-20220404165045833](http://oss.jankinwu.com/img/image-20220404165045833.png)
 
 ![img](http://oss.jankinwu.com/img/2347845-20210708131124441-2022501151.png)
+
+### Pipeline
+
+#### Pipeline 简介
+
+**1. 概念**
+
+​		Pipeline，简单来说，就是一套运行在 Jenkins 上的工作流框架，将原来独立运行于单个或者多个节点
+
+的任务连接起来，实现单个任务难以完成的复杂流程编排和可视化的工作。
+
+**2. 使用 Pipeline 有以下好处**
+
++ 代码：Pipeline以代码的形式实现，通常被检入源代码控制，使团队能够编辑，审查和迭代其传送流程。 
+
++ 持久：无论是计划内的还是计划外的服务器重启，Pipeline都是可恢复的。
++ 可停止：Pipeline可接收交互式输入，以确定是否继续执行Pipeline。
++ 多功能：Pipeline支持现实世界中复杂的持续交付要求。它支持fork/join、循环执行，并行执行任务的功能。
++ 可扩展：Pipeline插件支持其DSL的自定义扩展 ，以及与其他插件集成的多个选项。
+
+**3. 如何创建 Jenkins Pipeline**
+
++ Pipeline 脚本是由 **Groovy** 语言实现的，但是我们没必要单独去学习 Groovy
++ Pipeline 支持两种语法：**Declarative**(声明式)和 **Scripted Pipeline**(脚本式)语法
++ Pipeline 也有两种创建方法：可以直接在 Jenkins 的 Web UI 界面中输入脚本；也可以通过创建一个 Jenkinsfifile 脚本文件放入项源码库中（一般我们都推荐在 Jenkins 中直接从源代码控制(SCM)中直接载入 Jenkinsfifile Pipeline 这种方法）
+
+#### Pipeline 插件安装
+
+![](http://oss.jankinwu.com/img/image-20220409144733050.png)
+
+#### Pipeline 语法
+
+> Declarative声明式-Pipeline
+
++ pipeline：代表整条流水线，包含整条流水线的逻辑
+
++ stages：代表整个流水线的所有执行阶段。通常stages只有1个，里面包含多个stage。
+
++ stage：代表流水线中的某个阶段，可能出现n个。一般分为拉取代码，编译构建，部署等阶段。
+
++ steps：代表一个阶段内需要执行的逻辑。steps里面是shell脚本，git拉取代码，ssh远程发布等任意内
+
+  容。
+
++ agent：指定流水线的执行位置（Jenkins agent）。流水线中的每个每段都必须在某个地方（物理机、虚拟机或Docker 容器）执行。agent部分即指定具体在哪里执行。
+
+以上的每一项都是必需的，少任何一个，Jenkins 都会报错。
+
+
+
+编写一个简单声明式Pipeline：
+
+```json
+pipeline { 
+    agent any
+    stages { 
+        stage('Build') {
+            steps { 
+                echo 'Building..' 
+            } 
+        } 
+        stage('Test') { 
+            steps { 
+                echo 'Testing..' 
+            } 
+        } 
+        stage('Deploy') { 
+            steps { 
+                echo 'Deploying....' 
+            } 
+        } 
+    }
+}
+```
+
+> Scripted Pipeline脚本式-Pipeline
+
++ Node：节点，一个 Node 就是一个 Jenkins 节点，Master 或者 Agent，是执行 Step 的具体运行环境，后续讲到Jenkins的Master-Slave架构的时候用到。
+
++ Stage：阶段，一个 Pipeline 可以划分为若干个 Stage，每个 Stage 代表一组操作，比如：Build、Test、Deploy，Stage 是一个逻辑分组的概念。
+
++ Step：步骤，Step 是最基本的操作单元，可以是打印一句话，也可以是构建一个 Docker 镜像，由各类 Jenkins 插件提供，比如命令：sh ‘make’，就相当于我们平时 shell 终端中执行 make 命令一样。
+
+编写一个简单脚本式Pipeline：
+
+```json
+node {
+    def mvnHome
+    stage('Preparation') { // for display purposes
+        // Get some code from a GitHub repository
+        git 'https://github.com/jglick/simple-maven-project-with-tests.git'
+        // Get the Maven tool.
+        // ** NOTE: This 'M3' Maven tool must be configured
+        // **       in the global configuration.
+        mvnHome = tool 'M3'
+    }
+    stage('Build') {
+        // Run the maven build
+        withEnv(["MVN_HOME=$mvnHome"]) {
+            if (isUnix()) {
+                sh '"$MVN_HOME/bin/mvn" -Dmaven.test.failure.ignore clean package'
+            } else {
+                bat(/"%MVN_HOME%\bin\mvn" -Dmaven.test.failure.ignore clean package/)
+            }
+        }
+    }
+    stage('Results') {
+        junit '**/target/surefire-reports/TEST-*.xml'
+        archiveArtifacts 'target/*.jar'
+    }
+}
+```
+
+#### 创建 Pipeline 任务
+
+![image-20220409163426746](http://oss.jankinwu.com/img/image-20220409163426746.png)
+
+![image-20220409163459687](http://oss.jankinwu.com/img/image-20220409163459687.png)
+
+通过片段生成器拉取代码：
+
+![image-20220409165459982](http://oss.jankinwu.com/img/image-20220409165459982.png)
+
+![image-20220409165609566](http://oss.jankinwu.com/img/image-20220409165609566.png)
+
+将生成的脚本复制到`pull code`步骤中：
+
+![image-20220409172113621](http://oss.jankinwu.com/img/image-20220409172113621.png)
+
+使用 shell 脚本构建项目：
+
+![image-20220409170904575](http://oss.jankinwu.com/img/image-20220409170904575.png)
+
+![image-20220409172155943](http://oss.jankinwu.com/img/image-20220409172155943.png)
+
+生成部署脚本，应用并保存：
+
+![image-20220409171451936](http://oss.jankinwu.com/img/image-20220409171451936.png)
+
+
+
+![image-20220409172501495](http://oss.jankinwu.com/img/image-20220409172501495.png)
+
+构建项目并查看构建结果：
+
+![image-20220409172706557](http://oss.jankinwu.com/img/image-20220409172706557.png)
 
