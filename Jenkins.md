@@ -122,7 +122,7 @@ source /etc/profile
 mvn -version
 ```
 
-如果宿主机**没有安装Java**，则如下图所示：
+如果宿主机没有安装Java，则如下图所示：
 
 ![image-20220404000225359](http://oss.jankinwu.com/img/image-20220404000225359.png)
 
@@ -326,11 +326,11 @@ Jenkins可以和这些第三方的应用进行交互
 
 + SSH Username with private key： 使用SSH用户和密钥
 
-+ Secret fifile：需要保密的文本文件，使用时Jenkins会将文件复制到一个临时目录中，再将文件路径设置到一个变量中，等构建结束后，所复制的Secret fifile就会被删除。
++ Secret file：需要保密的文本文件，使用时Jenkins会将文件复制到一个临时目录中，再将文件路径设置到一个变量中，等构建结束后，所复制的Secret file就会被删除。
 
 + Secret text：需要保存的一个加密的文本串，如钉钉机器人或Github的api token
 
-+ Certifificate：通过上传证书文件的方式
++ Certificate：通过上传证书文件的方式
 
 ### 安装 Git 插件和 Git 工具
 
@@ -475,7 +475,7 @@ which git
 
 ​		配置完全局配置后去配置 jenkins 的环境变量 不然jenkins 运行打包命令会找不到 JAVA_HOME 和mvn 命令（yum安装jenkins需要配置环境变量，war包安装方式不用配置，docker 安装的jenkins属于用war包安装的，所以可以不用配置）
 
-​		Manage Jenkins->Confifigure System->Global Properties ，添加三个全局变量：JAVA_HOME、M2_HOME、PATH+EXTRA
+​		Manage Jenkins->Configure System->Global Properties ，添加三个全局变量：JAVA_HOME、M2_HOME、PATH+EXTRA
 
 ![image-20220404133825428](http://oss.jankinwu.com/img/image-20220404133825428.png)
 
@@ -585,9 +585,9 @@ docker restart tomcat
 
 ![img](http://oss.jankinwu.com/img/2347845-20210708131124441-2022501151.png)
 
-### Pipeline
+## Pipeline
 
-#### Pipeline 简介
+### Pipeline 简介
 
 **1. 概念**
 
@@ -608,13 +608,13 @@ docker restart tomcat
 
 + Pipeline 脚本是由 **Groovy** 语言实现的，但是我们没必要单独去学习 Groovy
 + Pipeline 支持两种语法：**Declarative**(声明式)和 **Scripted Pipeline**(脚本式)语法
-+ Pipeline 也有两种创建方法：可以直接在 Jenkins 的 Web UI 界面中输入脚本；也可以通过创建一个 Jenkinsfifile 脚本文件放入项源码库中（一般我们都推荐在 Jenkins 中直接从源代码控制(SCM)中直接载入 Jenkinsfifile Pipeline 这种方法）
++ Pipeline 也有两种创建方法：可以直接在 Jenkins 的 Web UI 界面中输入脚本；也可以通过创建一个 Jenkinsfile 脚本文件放入项源码库中（一般我们都推荐在 Jenkins 中直接从源代码控制(SCM)中直接载入 Jenkinsfile Pipeline 这种方法）
 
-#### Pipeline 插件安装
+### Pipeline 插件安装
 
 ![](http://oss.jankinwu.com/img/image-20220409144733050.png)
 
-#### Pipeline 语法
+### Pipeline 语法
 
 > Declarative声明式-Pipeline
 
@@ -697,7 +697,7 @@ node {
 }
 ```
 
-#### 创建 Pipeline 任务
+### 创建 Pipeline 任务
 
 ![image-20220409163426746](http://oss.jankinwu.com/img/image-20220409163426746.png)
 
@@ -730,4 +730,70 @@ node {
 构建项目并查看构建结果：
 
 ![image-20220409172706557](http://oss.jankinwu.com/img/image-20220409172706557.png)
+
+### Pipeline Script from SCM
+
+​		刚才我们都是直接在Jenkins的UI界面编写Pipeline代码，这样不方便脚本维护，建议把Pipeline脚本放
+
+在项目中（一起进行版本控制）。
+
+**1. 在项目根目录建立Jenkinsfile文件，把内容复制到该文件中，并将文件推送到远程仓库**
+
+![image-20220416143141513](http://oss.jankinwu.com/img/image-20220416143141513.png)
+
+**2. 在 Jenkins 中配置该脚本**
+
+![image-20220416151554348](http://oss.jankinwu.com/img/image-20220416151554348.png)
+
+## 触发器
+
+Jenkins内置4种构建触发器：
+
++ 触发远程构建
+
++ 其他工程构建后触发（Build after other projects are build）
+
++ 定时构建（Build periodically）
+
++ 轮询SCM（Poll SCM）
+
+### Git hook自动触发构建
+
+​		轮询SCM可以实现Gitlab代码更新，项目自动构建，但是该方案的性能不佳。那有没有更好的方案呢？有的。就是利用webhook实现代码push到仓库，立即触发项目自动构建。
+
+![img](http://oss.jankinwu.com/img/20210306010735414.png)
+
+**1. 安装webhook插件**
+
+​		在Jenkins上安装webhook插件，使用Github就安装Github插件，使用Gitee就安装Gitee插件，以此类推，也可以安装Generic Webhook Trigger这种通用的webhook插件。
+
+![image-20220416165850389](http://oss.jankinwu.com/img/image-20220416165850389.png)
+
+下面以Gitee为例，安装Gitee插件。
+
+![image-20220416175214869](http://oss.jankinwu.com/img/image-20220416175214869.png)
+
+**2. Jenkins 构建触发器**
+
+在项目配置中构建触发器中选择`Gitee webhook`，复制 Jenkins 生成的URL和密码，应用并保存。
+
+注意：使用Github，Gitee这些公有仓库时，需要jenkins服务器有公网IP，这样Jenkins才能接收到仓库发送的请求。
+
+![image-20220416183106512](http://oss.jankinwu.com/img/image-20220416183106512.png)
+
+
+
+![image-20220416183456344](http://oss.jankinwu.com/img/image-20220416183456344.png)
+
+**2. 在Gitee中填入URL和密码**
+
+进入源码管理配置中设置的Gitee项目中，进入 管理 -> WebHooks，添加 WebHook，填写上一步复制的URL和密码，不设密码可以不填密码，勾选 PUSH， Pull Request。
+
+![image-20220416184339095](http://oss.jankinwu.com/img/image-20220416184339095.png)
+
+![image-20220416184543978](http://oss.jankinwu.com/img/image-20220416184543978.png)
+
+**3.  测试推送触发构建**
+
+Gitee项目页面编辑一个文件提交，观察 Jenkins 任务的构建状态。
 
