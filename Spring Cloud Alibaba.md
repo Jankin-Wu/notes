@@ -47,10 +47,10 @@ public class ProductApplication
 
 ``` yaml
 spring:
-	cloud:
-		nacos:
-			discovery:
-				server-addr: 127.0.0.1:8848
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
 ```
 
 > 启动服务， 观察nacos的控制面板中是否有注册上来的微服务
@@ -177,11 +177,11 @@ Dproject.name=sentinel-dashboard -jar sentinel-dashboard-1.7.0.jar
 
 ``` yaml
 spring:
-cloud:
-sentinel:
-transport:
-port: 9999 #跟控制台交流的端口,随意指定一个未使用的端口即可
-dashboard: localhost:8080 # 指定控制台服务的地址
+  cloud:
+    sentinel:
+     transport:
+       port: 9999 #跟控制台交流的端口,随意指定一个未使用的端口即可
+       dashboard: localhost:8080 # 指定控制台服务的地址
 ```
 
 4.  通过浏览器访问localhost:8080 进入控制台 ( 默认用户名密码是 sentinel/sentinel )
@@ -233,10 +233,10 @@ dashboard: localhost:8080 # 指定控制台服务的地址
 
 ```yaml
 spring:
-	cloud:
-		sentinel:
-			filter:
-				enabled: false
+  cloud:
+    sentinel:
+	  filter:
+	    enabled: false
 ```
 
 +  添加一个配置类，自己构建CommonFilter实例
@@ -653,8 +653,8 @@ com.itheima.config.FilePersistence
 
 ```yaml
 feign:
-    sentinel:
-    	enabled: true
+  sentinel:
+   enabled: true
 ```
 
 > 第三步：创建容错类  
@@ -716,20 +716,20 @@ public class GatewayApplication {
 
 ```yaml
 server:
-	port: 7000
+  port: 7000
 spring:
-	application:
-		name: api-gateway
-	cloud:
-		gateway:
-			routes: # 路由数组[路由 就是指定当请求满足什么条件的时候转到哪个微服务]
-                - id: product_route # 当前路由的标识, 要求唯一
-                    uri: http://localhost:8081 # 请求要转发到的地址
-                    order: 1 # 路由的优先级,数字越小级别越高
-                    predicates: # 断言(就是路由转发要满足的条件)
-                        - Path=/product-serv/** # 当请求路径满足Path指定的规则时,才进行路由转发
-                    filters: # 过滤器,请求在传递过程中可以通过过滤器对其进行一定的修改
-                        - StripPrefix=1 # 转发之前去掉1层路径
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+	  routes: # 路由数组[路由 就是指定当请求满足什么条件的时候转到哪个微服务]
+        - id: product_route # 当前路由的标识, 要求唯一
+          uri: http://localhost:8081 # 请求要转发到的地址
+          order: 1 # 路由的优先级,数字越小级别越高
+          predicates: # 断言(就是路由转发要满足的条件)
+            - Path=/product-serv/** # 当请求路径满足Path指定的规则时,才进行路由转发
+          filters: # 过滤器,请求在传递过程中可以通过过滤器对其进行一定的修改
+            - StripPrefix=1 # 转发之前去掉1层路径
 ```
 
 ### 增强版
@@ -760,25 +760,25 @@ public class ApiGatewayApplication {
 
 ```yaml
 server:
-	port: 7000
+  port: 7000
 spring:
-    application:
-    	name: api-gateway
-    cloud:
-        nacos:
-            discovery:
-            	server-addr: 127.0.0.1:8848
-        gateway:
-            discovery:
-                locator:
-                	enabled: true # 让gateway可以发现nacos中的微服务
-            routes:
-                - id: product_route
-                    uri: lb://service-product # lb指的是从nacos中按照名称获取微服务,并遵循负载均衡策略
-                    predicates:
-                    	- Path=/product-serv/**
-                    filters:
-                    	- StripPrefix=1
+  application:
+    name: api-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+    gateway:
+      discovery:
+        locator:
+          enabled: true # 让gateway可以发现nacos中的微服务
+        routes:
+          - id: product_route
+            uri: lb://service-product # lb指的是从nacos中按照名称获取微服务,并遵循负载均衡策略
+            predicates:
+              - Path=/product-serv/**
+            filters:
+              - StripPrefix=1
 ```
 
 ### 简写版  
@@ -788,18 +788,18 @@ spring:
 ```yaml
 # uri 默认为“网关服务地址/微服务名称/接口地址”，按照这个格式访问，就可以成功响应
 server:
-	port: 7000
+  port: 7000
 spring:
-    application:
-    	name: gateway
-    cloud:
-        nacos:
-            discovery:
-            	server-addr: 127.0.0.1:8848
-        gateway:
-        	discovery:
-        		locator:
-        			enabled: true `
+  application:
+    name: gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+    gateway:
+      discovery:
+        locator:
+          enabled: true `
 ```
 
 ### 断言  
