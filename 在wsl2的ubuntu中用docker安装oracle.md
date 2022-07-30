@@ -81,6 +81,10 @@ docker run -d -p 1521:1521 -e ORACLE_ALLOW_REMOTE=true -p 8081:8080 -v /usr/loca
 @echo off
 setlocal enabledelayedexpansion
 
+::不管三七二十一先停掉可能在跑的wsl实例
+wsl --shutdown ubuntu
+::重新拉起来，并且用root的身份，启动ssh服务和docker服务
+wsl -u root service ssh start
 wsl -u root service docker start | findstr "Starting Docker" > nul
 if !errorlevel! equ 0 (
     echo docker start success
