@@ -18,7 +18,7 @@
 
 ## Jenkins 介绍
 
-Jenkins 是一款流行的开源持续集成（Continuous Integration）工具，广泛用于项目开发，具有自动
+​		Jenkins 是一款流行的开源持续集成（Continuous Integration）工具，广泛用于项目开发，具有自动
 
 化构建、测试和部署等功能。官网： http://jenkins-ci.org/。
 
@@ -91,7 +91,7 @@ chmod 777 /usr/local/docker/jenkins_home
 
 **2. 安装Maven**
 
-因为用到的docker镜像中不包含maven，所以要在宿主机中安装，通过文件挂载的方式提供调用
+​		因为用到的docker镜像中不包含maven，所以要在宿主机中安装，通过文件挂载的方式提供调用
 
 从官网（https://maven.apache.org/download.cgi）下载maven，并放到宿主机`/opt`目录下
 
@@ -769,15 +769,15 @@ Jenkins内置4种构建触发器：
 
 ![image-20220416165850389](http://oss.jankinwu.com/img/image-20220416165850389.png)
 
-下面以Gitee为例，安装Gitee插件。
+​		下面以Gitee为例，安装Gitee插件。
 
 ![image-20220416175214869](http://oss.jankinwu.com/img/image-20220416175214869.png)
 
 **2. Jenkins 构建触发器**
 
-在项目配置中构建触发器中选择`Gitee webhook`，复制 Jenkins 生成的URL和密码，应用并保存。
+​		在项目配置中构建触发器中选择`Gitee webhook`，复制 Jenkins 生成的URL和密码，应用并保存。
 
-注意：使用Github，Gitee这些公有仓库时，需要jenkins服务器有公网IP，这样Jenkins才能接收到仓库发送的请求。
+​		注意：使用Github，Gitee这些公有仓库时，需要jenkins服务器有公网IP，这样Jenkins才能接收到仓库发送的请求。
 
 ![image-20220416183106512](http://oss.jankinwu.com/img/image-20220416183106512.png)
 
