@@ -161,7 +161,7 @@ networks:
 **docker-compose 文件解释**
 
 + `- zoo1-data:/data`结合下方的`zoo1-data:(换行) external: false`的意思就是，将/data挂载在zoo1-data上，同时external: false将指定不一定要使用现成的卷（不存在则创建名为{project_name}_zoo1-data的卷，project_name默认为文件夹名，默认创建位置为`/var/lib/docker/volumes`此处为zookeeper_zoo1-data）（external: true意思是必须使用现成的卷）。
-+ networks: 指定了网络名，最终的网络名可能为"{project_name}/{network_name}"
++ networks: 指定了网络名，最终的网络名可能为"{project_name}_{network_name}"，不指定`network`模式的情况下，默认是`bridge`模式
 + ports: {p1}:{p2} 指定将宿主机上的p1端口映射到容器的p2端口，映射关系可在`docker-compose ps中查看`
 
 2. 运行zookeeper集群
@@ -342,20 +342,19 @@ ls -s 节点全路径或相对路径
 # aclversion：权限版本号
 # ephemeralOwner：用于临时节点，表示临时节点的事务ID
 # dataLength：节点存储的数据的长度 
-# numChildren：当前节点的子节点个数 
+# numChildren：当前节点的子节点个数
 ```
 
 ### 节点类型
 
 + **PERSISTENT 持久化目录节点**：客户端与zookeeper断开连接后，该节点依旧存在，只要不手动删除该节点，他将永远存在
-
 + **PERSISTENT_SEQUENTIAL 持久化顺序编号目录节点**：客户端与zookeeper断开连接后，该节点依旧存在，只是Zookeeper给该节点名称进行顺序编号
-
 + **EPHEMERAL 临时目录节点**：客户端与zookeeper断开连接后，该节点被删除
-
 + **EPHEMERAL_SEQUENTIAL 临时顺序编号目录节点**：客户端与zookeeper断开连接后，该节点被删除，只是Zookeeper给该节点名称进行顺序编号
-
 + **Container 节点**：3.5.3 版本新增，如果Container节点下面没有子节点，则Container节点 在未来会被Zookeeper自动清除,定时任务默认60s 检查一次
-
 + **TTL 节点**：默认禁用，只能通过系统配置 zookeeper.extendedTypesEnabled=true 开启，不稳定。
+
+
+
+
 
